@@ -2,14 +2,17 @@
  * Generates background styles from configuration
  * @param configuration
  */
-export const generateBackgrounds = (configuration) => {
-    return Object.entries(configuration.backgrounds ?? {}).reduce((acc, [key, value]) => {
-        return Object.assign(acc, {
-            [`${key}`]: {
-                backgroundColor: value,
-            },
-        });
-    }, {});
+export const generateBackgrounds = configuration => {
+	return Object.entries(configuration.backgrounds ?? {}).reduce(
+		(acc, [key, value]) => {
+			return Object.assign(acc, {
+				[`${key}`]: {
+					backgroundColor: value,
+				},
+			});
+		},
+		{},
+	);
 };
 /**
  * Static background styles
