@@ -14,6 +14,7 @@ import {
 	Alert,
 	Modal,
 	TextInput,
+	Platform,
 } from 'react-native';
 import {
 	Camera,
@@ -50,9 +51,14 @@ function CameraScreen() {
 
 	const takePhoto = async () => {
 		if (cameraRef.current) {
-			const photoData = await cameraRef.current.takePhoto({
+			let photoData = await cameraRef.current.takePhoto({
 				flash: 'off',
 			});
+
+			if (Platform.OS === 'android') {
+				photoData.path = `file://${photoData.path}`;
+			}
+
 			setPhoto(photoData);
 		}
 	};
@@ -79,6 +85,7 @@ function CameraScreen() {
 				0, // Rotation (0 means no rotation)
 				true,
 			);
+			console.log("🚀 ~ handleProcessing ~ resizedPhoto:", resizedPhoto)
 
 			// Fetch the resized image and convert it to base64
 			const response = await fetch(resizedPhoto.uri);
@@ -107,7 +114,7 @@ function CameraScreen() {
 
 					const result = await instanceGCP
 						.post(
-							'projects/192727520777/locations/us-central1/endpoints/6703011010527100928:predict',
+							'projects/192727520777/locations/us-central1/endpoints/8422823118229209088:predict',
 							{ json: payload },
 						)
 						.json();

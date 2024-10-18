@@ -14,7 +14,6 @@ import {
 	Alert,
 	Modal,
 	TextInput,
-	Platform,
 } from 'react-native';
 import {
 	Camera,
@@ -51,14 +50,9 @@ function CameraScreen() {
 
 	const takePhoto = async () => {
 		if (cameraRef.current) {
-			let photoData = await cameraRef.current.takePhoto({
+			const photoData = await cameraRef.current.takePhoto({
 				flash: 'off',
 			});
-
-			if (Platform.OS === 'android') {
-				photoData.path = `file://${photoData.path}`;
-			}
-
 			setPhoto(photoData);
 		}
 	};
@@ -85,7 +79,6 @@ function CameraScreen() {
 				0, // Rotation (0 means no rotation)
 				true,
 			);
-			console.log("🚀 ~ handleProcessing ~ resizedPhoto:", resizedPhoto)
 
 			// Fetch the resized image and convert it to base64
 			const response = await fetch(resizedPhoto.uri);
